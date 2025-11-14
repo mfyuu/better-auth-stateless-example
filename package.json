@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "better-auth-stateless-example",
   "private": true,
   "scripts": {
     "build": "turbo run build",
