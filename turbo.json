@@ -14,5 +14,6 @@
 			"cache": false,
 			"persistent": true
 		}
-	}
+	},
+	"globalEnv": ["GOOGLE_*", "BETTER_AUTH_*"]
 }
