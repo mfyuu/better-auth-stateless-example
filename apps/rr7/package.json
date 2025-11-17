@@ -24,6 +24,7 @@
 		"@radix-ui/react-tooltip": "^1.2.8",
 		"@react-router/node": "^7.9.2",
 		"@react-router/serve": "^7.9.2",
+		"@vercel/react-router": "^1.2.3",
 		"better-auth": "^1.4.0-beta.20",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
