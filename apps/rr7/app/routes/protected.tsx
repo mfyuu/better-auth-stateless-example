@@ -1,21 +1,36 @@
 import type { FC } from "react";
+import { Navigate, redirect } from "react-router";
 import { ScrollArea } from "~/components/ui/scroll-area";
+import { auth } from "~/lib/auth";
 import { useSession } from "~/lib/auth-client";
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/protected";
 
 export const meta = (_: Route.MetaArgs) => {
 	return [
-		{ title: "Better Auth Example | Home Page" },
+		{ title: "Better Auth Example | Protected Page" },
 		{ name: "description", content: "React Router v7 + Better Auth" },
 	];
 };
 
-const Home: FC<Route.ComponentProps> = () => {
+export const loader = async ({ request }: Route.LoaderArgs) => {
+	const session = await auth.api.getSession({
+		headers: request.headers,
+	});
+	if (!session) {
+		throw redirect("/sign-in");
+	}
+	return { session };
+};
+
+const Protected: FC<Route.ComponentProps> = () => {
 	const { data: session, isPending } = useSession();
+	if (!isPending && !session) {
+		return <Navigate to="/sign-in" />;
+	}
 
 	return (
 		<main className="container mx-auto grid grid-rows-[auto_1fr] flex-1 gap-4 py-4">
-			<h1 className="text-base">This is Non Protected Page</h1>
+			<h1 className="text-base">This is Protected Page</h1>
 			{isPending ? (
 				<div className="flex items-center justify-center">
 					<p className="text-lg text-muted-foreground">読み込み中...</p>
@@ -34,4 +49,4 @@ const Home: FC<Route.ComponentProps> = () => {
 	);
 };
 
-export default Home;
+export default Protected;
