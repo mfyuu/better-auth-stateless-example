@@ -2,8 +2,8 @@ import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const proxy = async (request: NextRequest) => {
-	const sessionCookie = getSessionCookie(request);
-	if (!sessionCookie) {
+	const cookies = getSessionCookie(request);
+	if (!cookies) {
 		return NextResponse.redirect(
 			new URL(`/sign-in?callback=${request.url}`, request.url),
 		);

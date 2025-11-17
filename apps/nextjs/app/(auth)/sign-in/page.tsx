@@ -1,7 +1,9 @@
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import type { FC } from "react";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
+import GoogleSI from "@/public/web_neutral_sq_SI.svg";
 
 const SignInPage: FC<PageProps<"/sign-in">> = async ({ searchParams }) => {
 	const query = await searchParams;
@@ -30,7 +32,7 @@ const SignInPage: FC<PageProps<"/sign-in">> = async ({ searchParams }) => {
 					size="lg"
 					variant="ghost"
 				>
-					<img src="/web_neutral_sq_SI.svg" alt="Google" />
+					<Image src={GoogleSI} alt="Google" />
 				</Button>
 			</form>
 		</main>

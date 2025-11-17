@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import type { FC } from "react";
+import { type FC, Suspense } from "react";
 import { MainNav } from "@/components/main-nav";
+// import { ServerUserMenu } from "@/components/server-user-menu";
 import { UserMenu } from "@/components/user-menu";
 
 const geistSans = Geist({
@@ -29,7 +30,10 @@ const RootLayout: FC<LayoutProps<"/">> = ({ children }) => {
 					<header className="sticky top-0 z-50 flex justify-center border-b bg-background backdrop-blur">
 						<div className="mx-auto flex h-16 container w-full items-center justify-between">
 							<MainNav />
-							<UserMenu />
+							<Suspense fallback={<div>Loading...</div>}>
+								<UserMenu />
+							</Suspense>
+							{/* <ServerUserMenu /> */}
 						</div>
 					</header>
 					{children}

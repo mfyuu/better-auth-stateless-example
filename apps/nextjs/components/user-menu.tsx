@@ -1,7 +1,9 @@
 "use client";
 
-import { LogOut, User } from "lucide-react";
+import { LogIn, LogOut, User } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { FC } from "react";
+import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,24 +16,47 @@ import { signIn, signOut, useSession } from "@/lib/auth-client";
 
 export const UserMenu: FC = () => {
 	const { data: session, isPending } = useSession();
+	const pathname = usePathname();
+	const query = useSearchParams();
+	const router = useRouter();
+	const callbackURL = `${pathname}?${query.toString()}`;
 
-	if (isPending) {
-		return <div>Loading...</div>;
-	}
-	if (!session) {
+	const handleSignIn = async () => {
+		await signIn.social({
+			provider: "google",
+			callbackURL,
+		});
+	};
+
+	const handleSignOut = async () => {
+		await signOut({
+			fetchOptions: {
+				onSuccess(ctx) {
+					console.debug("ctx", ctx);
+					toast.success("Signed out successfully");
+					// Making a new request to the server, re-fetching data requests, and re-rendering Server Components.
+					// MEMO: `/`, `client-example` などの useSession でセッション取得・表示しているコンポーネントなら router.refresh() がなくても即座に更新される
+					router.refresh();
+					// TODO: refetch でもいけそうな気もするがこれだと即座に更新されない
+				},
+				onError(err) {
+					console.error("error", err);
+					toast.error("Failed to sign out");
+				},
+			},
+		});
+	};
+
+	// `!sPending` が条件にないとサインイン済みのときにレイアウトシフトが発生する
+	if (!isPending && !session) {
 		return (
 			<Button
-				className="px-0 hover:shadow-sm"
-				size="lg"
 				variant="ghost"
-				onClick={async () => {
-					await signIn.social({
-						provider: "google",
-						callbackURL: "/",
-					});
-				}}
+				className="text-muted-foreground hover:text-foreground"
+				onClick={handleSignIn}
 			>
-				<img src="/web_neutral_sq_SI.svg" alt="Google" />
+				<LogIn className="h-4 w-4" />
+				Sign in
 			</Button>
 		);
 	}
@@ -45,8 +70,8 @@ export const UserMenu: FC = () => {
 				>
 					<Avatar className="h-8 w-8">
 						<AvatarImage
-							src={session.user?.image || ""}
-							alt={session.user?.name || "User"}
+							src={session?.user?.image || "User"}
+							alt={session?.user?.name || "User"}
 						/>
 						<AvatarFallback>
 							<User className="h-5 w-5" />
@@ -59,8 +84,8 @@ export const UserMenu: FC = () => {
 					<div className="flex items-center gap-3">
 						<Avatar className="h-10 w-10">
 							<AvatarImage
-								src={session.user?.image || ""}
-								alt={session.user?.name || "User"}
+								src={session?.user?.image || "User"}
+								alt={session?.user?.name || "User"}
 							/>
 							<AvatarFallback>
 								<User className="h-5 w-5" />
@@ -68,10 +93,10 @@ export const UserMenu: FC = () => {
 						</Avatar>
 						<div className="flex-1 overflow-hidden">
 							<p className="truncate font-medium text-sm">
-								{session.user?.name}
+								{session?.user?.name || "User"}
 							</p>
 							<p className="truncate text-muted-foreground text-xs">
-								{session.user?.email}
+								{session?.user?.email || "User"}
 							</p>
 						</div>
 					</div>
@@ -83,7 +108,7 @@ export const UserMenu: FC = () => {
 					<Button
 						variant="ghost"
 						className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground"
-						onClick={() => signOut()}
+						onClick={handleSignOut}
 					>
 						<LogOut className="h-4 w-4" />
 						Sign out
