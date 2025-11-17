@@ -1,4 +1,5 @@
 import { type FC, Suspense } from "react";
+import { Spinner } from "@/components/ui/spinner";
 import { SessionData } from "./session-data";
 
 const ServerExample: FC = () => {
@@ -7,8 +8,8 @@ const ServerExample: FC = () => {
 			<h1 className="text-base">This is Server Component Example</h1>
 			<Suspense
 				fallback={
-					<div className="flex items-center justify-center">
-						<p className="text-lg text-muted-foreground">読み込み中...</p>
+					<div className="grid place-content-center">
+						<Spinner />
 					</div>
 				}
 			>
