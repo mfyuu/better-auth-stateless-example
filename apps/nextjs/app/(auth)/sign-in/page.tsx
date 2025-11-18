@@ -7,16 +7,16 @@ import GoogleSI from "@/public/web_neutral_sq_SI.svg";
 
 const SignInPage: FC<PageProps<"/sign-in">> = async ({ searchParams }) => {
 	const query = await searchParams;
-	const callbackURL = Array.isArray(query.callback)
-		? query.callback[0]
-		: query.callback;
+	const redirectTo = Array.isArray(query.redirectTo)
+		? query.redirectTo[0]
+		: query.redirectTo;
 
 	const signIn = async () => {
 		"use server";
 		const res = await auth.api.signInSocial({
 			body: {
 				provider: "google",
-				callbackURL: callbackURL,
+				callbackURL: redirectTo,
 			},
 		});
 		return redirect(res.url ?? "/");
