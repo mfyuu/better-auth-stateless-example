@@ -28,6 +28,18 @@ export class CdkStack extends cdk.Stack {
 				userPassword: true,
 				userSrp: true,
 			},
+			oAuth: {
+				flows: {
+					authorizationCodeGrant: true,
+				},
+				scopes: [
+					cognito.OAuthScope.OPENID,
+					cognito.OAuthScope.PROFILE,
+					cognito.OAuthScope.EMAIL,
+				],
+				callbackUrls: ["http://localhost:3000/api/auth/callback/cognito"],
+				logoutUrls: ["http://localhost:3000/"],
+			},
 		});
 
 		const domainPrefix = `${cdk.Stack.of(this).stackName.toLowerCase()}-auth`;
