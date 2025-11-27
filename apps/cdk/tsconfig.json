@@ -1,0 +1,7 @@
+{
+	"extends": "@repo/typescript-config/cdk.json",
+	"compilerOptions": {
+		"typeRoots": ["./node_modules/@types"]
+	},
+	"exclude": ["node_modules", "cdk.out"]
+}

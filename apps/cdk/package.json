@@ -1,0 +1,32 @@
+{
+	"name": "cdk",
+	"version": "0.1.0",
+	"bin": {
+		"cdk": "bin/cdk.js"
+	},
+	"scripts": {
+		"build": "tsc",
+		"watch": "tsc -w",
+		"cdk": "cdk",
+		"deploy": "cdk deploy --profile koutei",
+		"destroy": "cdk destroy --profile koutei",
+		"typecheck": "tsc --noEmit",
+		"format": "biome format --write",
+		"lint": "biome lint",
+		"lint-fix": "biome lint --write",
+		"check": "biome check --write"
+	},
+	"devDependencies": {
+		"@repo/typescript-config": "*",
+		"@types/node": "^24.10.1",
+		"aws-cdk": "2.1033.0",
+		"esbuild": "^0.27.0",
+		"ts-node": "^10.9.2",
+		"typescript": "~5.9.3"
+	},
+	"dependencies": {
+		"aws-cdk-lib": "2.215.0",
+		"constructs": "^10.0.0",
+		"hono": "^4.10.7"
+	}
+}
