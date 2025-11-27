@@ -30,6 +30,18 @@ export class CdkStack extends cdk.Stack {
 			},
 		});
 
+		const domainPrefix = `${cdk.Stack.of(this).stackName.toLowerCase()}-auth`;
+		const userPoolDomain = new cognito.UserPoolDomain(
+			this,
+			"apiUserPoolDomain",
+			{
+				userPool,
+				cognitoDomain: {
+					domainPrefix,
+				},
+			},
+		);
+
 		const authorizer = new apigw.CognitoUserPoolsAuthorizer(
 			this,
 			"apiAuthorizer",
@@ -53,6 +65,10 @@ export class CdkStack extends cdk.Stack {
 				allowMethods: apigw.Cors.ALL_METHODS,
 				allowHeaders: apigw.Cors.DEFAULT_HEADERS,
 			},
+		});
+
+		new cdk.CfnOutput(this, "cognitoDomain", {
+			value: userPoolDomain.baseUrl(),
 		});
 	}
 }
