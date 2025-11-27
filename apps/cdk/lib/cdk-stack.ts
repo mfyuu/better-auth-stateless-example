@@ -22,6 +22,8 @@ export class CdkStack extends cdk.Stack {
 
 		new cognito.UserPoolClient(this, "apiUserPoolClient", {
 			userPool,
+			// サーバーサイドで認証させるならtrueにする
+			generateSecret: true,
 			authFlows: {
 				userPassword: true,
 				userSrp: true,
