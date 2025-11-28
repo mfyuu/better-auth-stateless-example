@@ -7,6 +7,13 @@ export const auth = betterAuth({
 			clientId: process.env.GOOGLE_CLIENT_ID as string,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
 		},
+		cognito: {
+			clientId: process.env.COGNITO_CLIENT_ID as string,
+			clientSecret: process.env.COGNITO_CLIENT_SECRET as string,
+			domain: process.env.COGNITO_DOMAIN as string, // e.g. "your-app.auth.us-east-1.amazoncognito.com"
+			region: process.env.COGNITO_REGION as string, // e.g. "us-east-1"
+			userPoolId: process.env.COGNITO_USERPOOL_ID as string,
+		},
 	},
 	session: {
 		cookieCache: {

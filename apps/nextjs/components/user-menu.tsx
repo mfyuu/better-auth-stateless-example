@@ -23,7 +23,7 @@ export const UserMenu: FC = () => {
 
 	const handleSignIn = async () => {
 		await signIn.social({
-			provider: "google",
+			provider: "cognito",
 			callbackURL,
 		});
 	};

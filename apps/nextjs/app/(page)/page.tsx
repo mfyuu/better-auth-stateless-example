@@ -1,9 +1,19 @@
 "use client";
+import { useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useSession } from "@/lib/auth-client";
+import { getAccessToken, useSession } from "@/lib/auth-client";
 
 export default function Home() {
 	const { data: session } = useSession();
+
+	useEffect(() => {
+		(async () => {
+			const accessToken = await getAccessToken({
+				providerId: "cognito",
+			});
+			console.log("accessToken", accessToken);
+		})();
+	}, [session]);
 
 	return (
 		<main className="container mx-auto grid grid-rows-[auto_1fr] flex-1 gap-4 py-4">
