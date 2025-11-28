@@ -10,7 +10,8 @@ export const SessionData: FC = async () => {
 
 	const { idToken } = await auth.api.getAccessToken({
 		body: {
-			providerId: "cognito",
+			// providerId: "cognito",
+			providerId: "github",
 		},
 		headers: await headers(),
 	});
