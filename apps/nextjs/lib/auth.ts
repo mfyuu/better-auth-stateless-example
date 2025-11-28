@@ -3,16 +3,20 @@ import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
 	socialProviders: {
-		google: {
-			clientId: process.env.GOOGLE_CLIENT_ID as string,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-		},
+		// google: {
+		// 	clientId: process.env.GOOGLE_CLIENT_ID as string,
+		// 	clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+		// },
 		cognito: {
 			clientId: process.env.COGNITO_CLIENT_ID as string,
 			clientSecret: process.env.COGNITO_CLIENT_SECRET as string,
 			domain: process.env.COGNITO_DOMAIN as string, // e.g. "your-app.auth.us-east-1.amazoncognito.com"
 			region: process.env.COGNITO_REGION as string, // e.g. "us-east-1"
 			userPoolId: process.env.COGNITO_USERPOOL_ID as string,
+		},
+		github: {
+			clientId: process.env.GITHUB_CLIENT_ID as string,
+			clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
 		},
 	},
 	session: {
@@ -23,6 +27,12 @@ export const auth = betterAuth({
 			strategy: "jwe", // can be "jwt" or "compact"
 			refreshCache: true, // Enable stateless refresh
 		},
+	},
+	account: {
+		updateAccountOnSignIn: true,
+		// @ts-expect-error
+		storeStateStrategy: "cookie",
+		storeAccountCookie: true, // Store account data after OAuth flow in a cookie (useful for database-less flows)
 	},
 	// This plugin is essential if you want to use server actions.
 	// see: https://www.better-auth.com/docs/integrations/next#server-action-cookies

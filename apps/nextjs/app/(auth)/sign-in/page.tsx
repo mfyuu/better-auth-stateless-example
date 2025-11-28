@@ -15,7 +15,8 @@ const SignInPage: FC<PageProps<"/sign-in">> = async ({ searchParams }) => {
 		"use server";
 		const res = await auth.api.signInSocial({
 			body: {
-				provider: "cognito",
+				// provider: "cognito",
+				provider: "github",
 				callbackURL: redirectTo,
 			},
 		});
